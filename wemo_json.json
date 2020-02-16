@@ -1,0 +1,10 @@
+ [{
+    "name": "Living room",
+    "event": "turn on",
+    "time": "sunset"
+},
+ {
+    "name": "Living room",
+    "event": "turn off",
+    "time": "10:15 PM"
+}]
