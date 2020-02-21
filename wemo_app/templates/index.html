@@ -1,20 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% include "header.html" %}
 
-<h1> Valleau Wemo Device App</h1>
+<div class="wemo-body text-center">
 
 {% for device in devices %}
-    <h2>{{ device.name }} </h2><br> <hr>
+    <h2>{{ device.name }} </h2>
+    <hr>
 
-    {% for activity in device.activities %}
-        {{ activity.activity_name }} {{ activity.activity_time }}
-    {% endfor %}
+    {% if device.activities %}
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col-75">Activity Name</th>
+              <th scope="col">Time</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for activity in device.activities %}
+                <tr>
+                    <td>{{ activity.activity_name }}</td>
+                    <td>{{ activity.activity_time }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p> No activities for outlet </p>
+
+    {% endif %}
 {% endfor %}
 
-</body>
-</html>
+
+</div>
+
+{% include "footer.html" %}

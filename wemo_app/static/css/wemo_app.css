@@ -1,0 +1,16 @@
+
+
+body {
+    font-size: 1.05rem;
+}
+
+.header{
+
+    padding: 3rem;
+}
+
+.table{
+    max-width: 750px;
+    margin-left:auto;
+    margin-right:auto;
+}
