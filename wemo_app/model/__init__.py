@@ -1,3 +1,4 @@
+from model.wemo_control import *
 from model.DeviceClasses import *
 
 from sqlalchemy import create_engine

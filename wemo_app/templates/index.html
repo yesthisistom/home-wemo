@@ -4,7 +4,7 @@
 
 {% for device in devices %}
     <h2>{{ device.name }} <label class="switch">
-  <input type="checkbox" checked>
+  <input id="powerswitch" type="checkbox" checked>
   <span class="slider round"></span>
 </label></h2>
     <hr>
@@ -37,5 +37,19 @@
 
 
 </div>
+
+<script>
+    $(document).ready(function(){
+     $("#powerswitch").click(function(){
+        clicked = $(this).attr("name");
+        $.ajax({
+          type : 'POST',
+          url : "http://localhost:5000", //"{{url_for('index.index')}}",
+          data : {'data':clicked}
+        });
+     });
+    });
+
+</script>
 
 {% include "footer.html" %}
