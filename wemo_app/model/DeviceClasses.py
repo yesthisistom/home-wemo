@@ -10,10 +10,12 @@ class Device(Base):
     __tablename__ = 'devices'
 
     id = Column(Integer, primary_key=True)
+    mac = Column(String)
     name = Column(String)
     description = Column(String)
+    ip_address = Column(String)
 
-    activities = relationship("DeviceActivity", back_populates='devices', cascade="all, delete, delete-orphan")
+    activities = relationship("DeviceActivity", lazy='subquery', back_populates='devices', cascade="all, delete, delete-orphan")
 
     def __repr__(self):
         return "<User(name='%s', desc='%s')>" % (self.name, self.description)

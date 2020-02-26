@@ -4,7 +4,7 @@
 
 {% for device in devices %}
     <h2>{{ device.name }} <label class="switch">
-  <input id="powerswitch" type="checkbox" checked>
+  <input id="powerswitch" device_name="{{ device.name }}" type="checkbox" {% if device.is_powered_on() %} checked {% endif %}>
   <span class="slider round"></span>
 </label></h2>
     <hr>
@@ -39,17 +39,19 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-     $("#powerswitch").click(function(){
-        clicked = $(this).attr("name");
-        $.ajax({
-          type : 'POST',
-          url : "http://localhost:5000", //"{{url_for('index.index')}}",
-          data : {'data':clicked}
-        });
-     });
+    $(document).ready(function() {
+        $("#powerswitch").click(function(){
+            var qurl="http://localhost:5000/changestatus";
+            $.ajax({
+                    type: "POST",
+                    cache: false,
+                    data: { 'desired_status' : ($(this).checked ? 1 : 0),
+                            'device': $(this).attr('device_name')},
+                    url: qurl,
+                    dataType: "json"
+             })
+         })
     });
-
 </script>
 
 {% include "footer.html" %}
