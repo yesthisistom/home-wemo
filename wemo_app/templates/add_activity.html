@@ -15,7 +15,14 @@
             {{ form.activitytime(size=32) }}
         </p>
         {{ form.deviceid }}
-        <p>{{ form.submit() }}</p>
+        {{ form.activityid }}
+        <p>
+        {% if form.activityid.data %}
+            {{ form.delete() }}
+        {% endif %}
+        {{ form.submit() }}
+        </p>
+
     </form>
 
 </div>

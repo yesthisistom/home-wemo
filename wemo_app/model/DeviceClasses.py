@@ -37,8 +37,8 @@ class Device(Base):
         return True
 
     def is_powered_on(self):
-        #TEMP
-        return None
+        # TEMP
+        # return None
         self._get_device()
         if not self.wemo_device:
             return None
@@ -54,10 +54,6 @@ class Device(Base):
         return self.wemo_device.on() if turn_on else self.wemo_device.off()
 
 
-
-
-
-
 class DeviceActivity(Base):
     __tablename__ = 'activities'
 
@@ -65,7 +61,7 @@ class DeviceActivity(Base):
     activity_name = Column(String, nullable=False)
     activity_time = Column(String, nullable=False)
     device_id = Column(Integer, ForeignKey('devices.id'))
-    devices = relationship("Device", back_populates="activities")
+    devices = relationship("Device", back_populates="activities", lazy='subquery')
 
     def __repr__(self):
         return "<DeviceActivity(activity_name='%s')>" % self.activity_name

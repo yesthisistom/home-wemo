@@ -3,6 +3,7 @@
 <div class="wemo-body text-center">
 
 {% for device in devices %}
+    <hr>
     <div class="row">
         <div class="col-8 text-left">
             <h2>{{ device.name }}</h2>
@@ -17,7 +18,7 @@
         </div>
     </div>
     <p>{{ device.description }}  {% if powered_on == None %} - Unable to find device on network {% endif %}</p>
-    <hr>
+
 
     {% if device.activities %}
     <br>
@@ -36,7 +37,7 @@
                 <tr>
                     <td>{{ activity.activity_name }}</td>
                     <td>{{ activity.activity_time }}</td>
-                    <td><a href=""><button class="btn btn-primary">Edit</button></a></td>
+                    <td><a href="{{ url_for('activity.edit_activity', activity_id=activity.id) }}"><button class="btn btn-primary">Edit</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>

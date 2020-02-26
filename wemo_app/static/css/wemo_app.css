@@ -9,6 +9,15 @@ body {
     padding: 3rem;
 }
 
+.header a{
+color: black
+}
+
+.header a:hover{
+color: black;
+text-decoration: none;
+}
+
 .table{
     max-width: 750px;
     margin-left:auto;

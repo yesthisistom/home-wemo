@@ -2,7 +2,6 @@ import pywemo
 import pandas as pd
 from suntime import Sun
 
-print("Start")
 
 def get_sunset_time(lat= 38.901658, lon=-77.038907):
     '''
@@ -41,6 +40,7 @@ def get_device_state(device_name):
 
     device = device_list[0]
     return device.get_state()
+
 
 def parse_activity_time(time_str):
     if time_str.lower() == 'sunset':
