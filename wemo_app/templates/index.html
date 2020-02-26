@@ -3,10 +3,20 @@
 <div class="wemo-body text-center">
 
 {% for device in devices %}
-    <h2>{{ device.name }} <label class="switch">
-  <input id="powerswitch" device_name="{{ device.name }}" type="checkbox" {% if device.is_powered_on() %} checked {% endif %}>
-  <span class="slider round"></span>
-</label></h2>
+    <div class="row">
+        <div class="col-8 text-left">
+            <h2>{{ device.name }}</h2>
+        </div>
+        <div class="col-4 text-right">
+            {% set powered_on = device.is_powered_on() %}
+
+            <label class="switch">
+            <input id="powerswitch" device_name="{{ device.name }}" type="checkbox" {% if powered_on %} checked {% endif %} {% if powered_on == None %} disabled {% endif %}>
+            <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <p>{{ device.description }}  {% if powered_on == None %} - Unable to find device on network {% endif %}</p>
     <hr>
 
     {% if device.activities %}
@@ -16,6 +26,7 @@
             <tr>
               <th scope="col-75">Activity Name</th>
               <th scope="col">Time</th>
+                <th scope="col"></th>
 
             </tr>
         </thead>
@@ -25,14 +36,17 @@
                 <tr>
                     <td>{{ activity.activity_name }}</td>
                     <td>{{ activity.activity_time }}</td>
+                    <td><a href=""><button class="btn btn-primary">Edit</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
         <p> No activities for outlet </p>
-
     {% endif %}
+
+    <a href="{{ url_for('activity.add_activity', device_id = device.id) }}"><button class="btn wide-button btn-primary">Add a new activity</button></a>
+    <br><br><br>
 {% endfor %}
 
 

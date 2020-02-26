@@ -1,0 +1,23 @@
+{% include "header.html" %}
+
+<div class="wemo-body text-center">
+
+    <br><br>
+    <h2>Create new Activity</h2>
+    <form action="{{ url_for('activity.save_activity') }}" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.activityname.label }}<br>
+            {{ form.activityname(size=32) }}
+        </p>
+        <p>
+            {{ form.activitytime.label }}<br>
+            {{ form.activitytime(size=32) }}
+        </p>
+        {{ form.deviceid }}
+        <p>{{ form.submit() }}</p>
+    </form>
+
+</div>
+
+{% include "footer.html" %}
