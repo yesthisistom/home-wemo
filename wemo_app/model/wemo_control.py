@@ -42,8 +42,3 @@ def get_device_state(device_name):
     return device.get_state()
 
 
-def parse_activity_time(time_str):
-    if time_str.lower() == 'sunset':
-        return get_sunset_time()
-
-    return pd.to_datetime(time_str).to_pydatetime()

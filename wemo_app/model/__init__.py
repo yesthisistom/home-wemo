@@ -24,13 +24,14 @@ def get_activity(activity_id, session=get_connection()):
     return results if results else None
 
 
-def update_activity(activity_id, activityname, activitytime):
+def update_activity(activity_id, activityname, activitytime, activitytype):
     session = get_connection()
     activity = get_activity(activity_id, session)
     if not activity:
         return False
     activity.activity_name = activityname
     activity.activity_time = activitytime
+    activity.turn_on = activitytype
 
     session.add(activity)
     session.commit()
@@ -46,13 +47,15 @@ def delete_activity(activity_id):
     session.close()
 
 
-def add_activity(device_id, activityname, activitytime):
+def add_activity(device_id, activityname, activitytime, activitytype):
     session = get_connection()
     device = get_device(device_id, session)
     if not device:
         return False
 
-    activity = DeviceActivity(activity_name=activityname, activity_time=activitytime)
+    activity = DeviceActivity(activity_name=activityname,
+                              activity_time=activitytime,
+                              turn_on=activitytype)
 
     device.activities.append(activity)
     session.add(device)

@@ -1,8 +1,11 @@
 import pywemo
+import pandas as pd
+from model import wemo_control
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime, timedelta
 
 Base = declarative_base()
 
@@ -60,9 +63,21 @@ class DeviceActivity(Base):
     id = Column(Integer, primary_key=True)
     activity_name = Column(String, nullable=False)
     activity_time = Column(String, nullable=False)
+    turn_on = Column(Boolean, nullable=False)
     device_id = Column(Integer, ForeignKey('devices.id'))
     devices = relationship("Device", back_populates="activities", lazy='subquery')
 
     def __repr__(self):
         return "<DeviceActivity(activity_name='%s')>" % self.activity_name
+
+    def get_day_occurence(self):
+        if self.activity_time.lower().startswith('sunset'):
+            sunset_time = wemo_control.get_sunset_time()
+            if len(self.activity_time.strip()) > len('sunset'):
+                adjustment = self.activity_time.strip()[len('sunset'):]
+                adjustment = adjustment.replace(' ', '')
+                sunset_time = sunset_time + timedelta(minutes=int(adjustment))
+            return sunset_time
+
+        return pd.to_datetime(self.activity_time).to_pydatetime()
 

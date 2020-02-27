@@ -18,4 +18,8 @@ def changestatus():
 
 @index_blueprint.route("/")
 def index():
-    return render_template('index.html', devices=model.get_devices())
+    devices = model.get_devices()
+    devices = sorted(devices, key=lambda x: len(x.activities), reverse=True)
+    for device in devices:
+        print(device)
+    return render_template('index.html', devices=devices)
