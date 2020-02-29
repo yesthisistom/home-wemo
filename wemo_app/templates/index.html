@@ -12,7 +12,7 @@
             {% set powered_on = device.is_powered_on() %}
 
             <label class="switch">
-            <input id="powerswitch" device_name="{{ device.name }}" type="checkbox" {% if powered_on %} checked {% endif %} {% if powered_on == None %} disabled {% endif %}>
+            <input class="powerswitch" device_id="{{ device.id }}" type="checkbox" {% if powered_on %} checked {% endif %} {% if powered_on == None %} disabled {% endif %}>
             <span class="slider round"></span>
             </label>
         </div>
@@ -55,17 +55,21 @@
 
 <script>
     $(document).ready(function() {
-        $("#powerswitch").click(function(){
-            var qurl="http://localhost:5000/changestatus";
-            $.ajax({
-                    type: "POST",
-                    cache: false,
-                    data: { 'desired_status' : ($(this).checked ? 1 : 0),
-                            'device': $(this).attr('device_name')},
-                    url: qurl,
-                    dataType: "json"
-             })
-         })
+        $(".powerswitch").each(function(index){
+
+            $(this).click(function(){
+                console.log('click detected for ' + $(this).attr('device_id') + ' checked? ' + $(this).checked);
+                var qurl="{{ url_for('index.changestatus') }}";
+                $.ajax({
+                        type: "POST",
+                        cache: false,
+                        data: { 'desired_status' : ($(this).prop('checked') ? 1 : 0),
+                                'device': $(this).attr('device_id')},
+                        url: qurl,
+                        dataType: "json"
+                 });
+             });
+         });
     });
 </script>
 

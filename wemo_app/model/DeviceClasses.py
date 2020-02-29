@@ -30,6 +30,7 @@ class Device(Base):
         if self.wemo_device:
             return True
 
+        # Attempt to get via IP address
         ip_address = self.ip_address
         port = pywemo.ouimeaux_device.probe_wemo(ip_address)
         if not port:
@@ -37,20 +38,28 @@ class Device(Base):
         url = 'http://%s:%i/setup.xml' % (ip_address, port)
         self.wemo_device = pywemo.discovery.device_from_description(url, None)
 
-        return True
+        # Scour the network instead
+        if not self.wemo_device:
+            device_list = [device for device in pywemo.discover_devices() if device.mac == self.mac]
+            if device_list:
+                self.wemo_device = device_list[0]
+
+        return True if self.wemo_device else False
 
     def is_powered_on(self):
-        # TEMP
-        # return None
+
         self._get_device()
         if not self.wemo_device:
+            print('Wemo Device Not Found')
             return None
 
         return self.wemo_device.get_state()
 
     def change_state(self, turn_on=False):
+        print('Change State requested, inside', turn_on)
         self._get_device()
         if not self.wemo_device:
+            print('Wemo Device Not Found')
             return None
 
         # TODO: See if these return a status, and return that?
@@ -63,6 +72,7 @@ class DeviceActivity(Base):
     id = Column(Integer, primary_key=True)
     activity_name = Column(String, nullable=False)
     activity_time = Column(String, nullable=False)
+    # activity_days = Column(String, nullable=False)
     turn_on = Column(Boolean, nullable=False)
     device_id = Column(Integer, ForeignKey('devices.id'))
     devices = relationship("Device", back_populates="activities", lazy='subquery')

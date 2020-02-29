@@ -10,7 +10,7 @@ from model import *
 
 
 def run_wemo_check():
-    engine = create_engine('sqlite:///../wemo_db.db', echo=True)
+    engine = create_engine('sqlite:///../database/wemo_db.db', echo=True)
     Base.metadata.create_all(engine)
 
     Session = sessionmaker(bind=engine)
@@ -18,14 +18,14 @@ def run_wemo_check():
     devices = session.query(Device).all()
     for device in devices:
         for activity in device.activities:
-        
-            activity_time = activity.get_day_occurence()
-            print(activity.activity_name, activity_time)
-            print('timedelta: ', datetime.now() - activity_time)
+            try:
+                activity_time = activity.get_day_occurence()
 
-            if activity_time < datetime.now() and (datetime.now() - activity_time).seconds / 60 < 15:
-                print('activity found')
-                device.change_state(activity.turn_on)
+                if activity_time < datetime.now() and (datetime.now() - activity_time).seconds / 60 < 15:
+                    print('activity found')
+                    device.change_state(activity.turn_on)
+            except:            
+                print('Activity Failed For', activity.activity_name)
 
 
 print(__name__)

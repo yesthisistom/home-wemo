@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 def get_connection():
-    engine = create_engine('sqlite:///../../wemo_db.db?' "check_same_thread=false")
+    engine = create_engine('sqlite:///../../database/wemo_db.db?' "check_same_thread=false")
     return sessionmaker(bind=engine)()
 
 
@@ -17,6 +17,14 @@ def get_devices():
 def get_device(dev_id, session=get_connection()):
     results = session.query(Device).filter(Device.id == dev_id)
     return results[0] if results else None
+
+
+def change_state(dev_id, state=0):
+    print('change state requested', state, type(state))
+    # 0 for off, 1 for on
+    device = get_device(dev_id)
+    if device:
+        device.change_state(True if state == '1' else False)
 
 
 def get_activity(activity_id, session=get_connection()):
