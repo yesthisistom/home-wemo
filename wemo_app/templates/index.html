@@ -56,9 +56,7 @@
 <script>
     $(document).ready(function() {
         $(".powerswitch").each(function(index){
-
             $(this).click(function(){
-                console.log('click detected for ' + $(this).attr('device_id') + ' checked? ' + $(this).checked);
                 var qurl="{{ url_for('index.changestatus') }}";
                 $.ajax({
                         type: "POST",

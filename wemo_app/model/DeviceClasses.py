@@ -1,4 +1,5 @@
 import pywemo
+import holidays
 import pandas as pd
 from model import wemo_control
 from sqlalchemy import ForeignKey
@@ -47,7 +48,6 @@ class Device(Base):
         return True if self.wemo_device else False
 
     def is_powered_on(self):
-
         self._get_device()
         if not self.wemo_device:
             print('Wemo Device Not Found')
@@ -56,7 +56,6 @@ class Device(Base):
         return self.wemo_device.get_state()
 
     def change_state(self, turn_on=False):
-        print('Change State requested, inside', turn_on)
         self._get_device()
         if not self.wemo_device:
             print('Wemo Device Not Found')
@@ -72,7 +71,7 @@ class DeviceActivity(Base):
     id = Column(Integer, primary_key=True)
     activity_name = Column(String, nullable=False)
     activity_time = Column(String, nullable=False)
-    # activity_days = Column(String, nullable=False)
+    activity_days = Column(String, nullable=False)
     turn_on = Column(Boolean, nullable=False)
     device_id = Column(Integer, ForeignKey('devices.id'))
     devices = relationship("Device", back_populates="activities", lazy='subquery')
@@ -81,6 +80,21 @@ class DeviceActivity(Base):
         return "<DeviceActivity(activity_name='%s')>" % self.activity_name
 
     def get_day_occurence(self):
+        # Check day of week
+
+        if self.activity_days != 'All Days':
+            weekday = datetime.today().weekday() < 5
+            us_holidays = holidays.US()
+            holiday = datetime.today() in us_holidays
+
+            if self.activity_days == 'Weekdays':
+                if not weekday or holiday:
+                    return None
+            elif self.acivity_days == 'Weekends':
+                if weekday and not holiday:
+                    return None
+
+        # If we're sunset
         if self.activity_time.lower().startswith('sunset'):
             sunset_time = wemo_control.get_sunset_time()
             if len(self.activity_time.strip()) > len('sunset'):

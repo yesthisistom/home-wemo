@@ -11,6 +11,12 @@ activity_blueprint = Blueprint('activity', __name__, template_folder='templates'
 class ActivityForm(FlaskForm):
     activityname = StringField('Activity Name', validators=[DataRequired()])
     activitytime = StringField('Activity Time', validators=[DataRequired()])
+    activitydays = SelectField('Activity Days',
+                               choices=[('All Days', "All Days"),
+                                        ('Weekdays', 'Weekdays'),
+                                        ('Weekends', "Weekends")
+                                        ])
+
     deviceid = HiddenField('Device ID', validators=[DataRequired()])
     activitytype = SelectField('Activity Type',
                                choices=[('True', "Turn On"),
@@ -26,7 +32,8 @@ def edit_activity(activity_id):
     activity = model.get_activity(activity_id)
 
     activity_form = ActivityForm(activityname=activity.activity_name, activitytime=activity.activity_time,
-                                 activitytype=activity.turn_on, deviceid=activity.device_id, activityid=activity_id)
+                                 activitydays=activity.activity_days, activitytype=activity.turn_on,
+                                 deviceid=activity.device_id, activityid=activity_id)
     return render_template('add_activity.html', form=activity_form)
 
 
@@ -53,6 +60,7 @@ def save_activity():
                 model.update_activity(activity_form.activityid.data,
                                       activity_form.activityname.data,
                                       activity_form.activitytime.data,
+                                      activity_form.activitydays.data,
                                       turn_on)
             elif activity_form.delete.data:
                 print('delete requested')
@@ -62,6 +70,7 @@ def save_activity():
             model.add_activity(activity_form.deviceid.data,
                                activity_form.activityname.data,
                                activity_form.activitytime.data,
+                               activity_form.activitydays.data,
                                turn_on)
         return redirect('/')
 
