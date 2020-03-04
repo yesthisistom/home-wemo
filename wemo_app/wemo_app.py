@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bootstrap import Bootstrap
 
 from controller import *
 
@@ -7,5 +8,7 @@ app.config['SECRET_KEY'] = 'secret key'
 
 app.register_blueprint(index_blueprint)
 app.register_blueprint(activity_blueprint)
+
+bootstrap = Bootstrap(app)
 
 

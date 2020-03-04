@@ -83,3 +83,7 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+select, input{
+text-align: center;
+}

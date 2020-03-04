@@ -23,8 +23,8 @@ class ActivityForm(FlaskForm):
                                         ('False', 'Turn Off')])
 
     activityid = HiddenField('Activity ID')
-    submit = SubmitField('Save Activity')
     delete = SubmitField('Delete Activity')
+    submit = SubmitField('Save Activity')
 
 
 @activity_blueprint.route("/edit/<int:activity_id>")

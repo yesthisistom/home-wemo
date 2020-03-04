@@ -1,38 +1,20 @@
 {% include "header.html" %}
 
+{% import 'bootstrap/wtf.html' as wtf %}
+
 <div class="wemo-body text-center">
 
-    <br><br>
-    <h2>Create new Activity</h2>
-    <form action="{{ url_for('activity.save_activity') }}" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.activityname.label }}<br>
-            {{ form.activityname(size=32) }}
-        </p>
-        <p>
-            {{ form.activitytime.label }}<br>
-            {{ form.activitytime(size=32) }}
-        </p>
-        <p>
-            {{ form.activitydays.label }} <br>
-            {{ form.activitydays }}
-        </p>
-        <p>
-            {{ form.activitytype.label }} <br>
-            {{ form.activitytype }}
-        </p>
+    <div class="row">
+        <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4">
 
-        {{ form.deviceid }}
-        {{ form.activityid }}
-        <p>
-        {% if form.activityid.data %}
-            {{ form.delete() }}
-        {% endif %}
-        {{ form.submit() }}
-        </p>
+            <h2 class="">Create new Activity</h2>
 
-    </form>
+            {{ wtf.quick_form(form) }}
+
+            </form>
+        </div>
+
+    </div>
 
 </div>
 
