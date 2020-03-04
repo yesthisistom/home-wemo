@@ -1,21 +1,39 @@
-{% include "header.html" %}
-
+{% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
-<div class="wemo-body text-center">
+{% block app_content %}
+
 
     <div class="row">
         <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4">
 
             <h2 class="">Create new Activity</h2>
+            <form action="{{ url_for('activity.save_activity') }}" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_errors(form, hiddens="only") }}
 
-            {{ wtf.quick_form(form) }}
+                {{ wtf.form_field(form.activityname) }}
+                {{ wtf.form_field(form.activitytime) }}
+                {{ wtf.form_field(form.activitytype) }}
+                {{ wtf.form_field(form.activitydays) }}
+
+                {{ form.deviceid }}
+                {{ form.activityid }}
+                <div class="row">
+                    <div class="col-6 text-left">
+                        {% if form.activityid.data %}
+                            {{ wtf.form_field(form.delete, button_map={'delete': 'primary'}) }}
+                        {% endif %}
+                    </div><div class="col-6 text-right">
+                        {{ wtf.form_field(form.submit, button_map={'submit': 'primary'}) }}
+                    </div>
+                </div>
 
             </form>
         </div>
 
     </div>
 
-</div>
 
-{% include "footer.html" %}
+
+{% endblock %}

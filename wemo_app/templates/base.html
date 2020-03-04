@@ -1,0 +1,41 @@
+
+{% extends 'bootstrap/base.html' %}
+{% block html_attribs %} lang="en"{% endblock %}
+
+{% block title %}
+    {% if title %}{{ title }} - {% endif %}Wemo App
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="/static/css/wemo_app.css">
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{{super()}}
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="header text-center">
+        <a href="{{ url_for('index.index') }}">
+            <h1> Valleau Wemo App</h1>
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info text-center" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="wemo-body text-center">
+        {% block app_content %}{% endblock %}
+    </div>
+
+ </div>
+{% endblock %}

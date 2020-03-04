@@ -1,14 +1,15 @@
-{% include "header.html" %}
+{% extends "base.html" %}
 
-<div class="wemo-body text-center">
+{% block app_content %}
+
 
 {% for device in devices %}
     <hr>
     <div class="row">
-        <div class="col-8 text-left">
+        <div class="col-8">
             <h2>{{ device.name }}</h2>
         </div>
-        <div class="col-4 text-right">
+        <div class="col-4">
             {% set powered_on = device.is_powered_on() %}
 
             <label class="switch">
@@ -51,8 +52,6 @@
 {% endfor %}
 
 
-</div>
-
 <script>
     $(document).ready(function() {
         $(".powerswitch").each(function(index){
@@ -71,4 +70,4 @@
     });
 </script>
 
-{% include "footer.html" %}
+{% endblock %}

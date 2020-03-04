@@ -1,5 +1,5 @@
 import model
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, flash
 
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired
@@ -62,9 +62,12 @@ def save_activity():
                                       activity_form.activitytime.data,
                                       activity_form.activitydays.data,
                                       turn_on)
+
+                flash('Activity Updated')
             elif activity_form.delete.data:
-                print('delete requested')
+
                 model.delete_activity(activity_form.activityid.data)
+                flash('Activity Deleted')
         else:
             # Create data
             model.add_activity(activity_form.deviceid.data,
@@ -72,8 +75,13 @@ def save_activity():
                                activity_form.activitytime.data,
                                activity_form.activitydays.data,
                                turn_on)
+
+            flash('Activity Added')
+
         return redirect('/')
 
-    print('validate failed?')
-    print(activity_form.errors)
-    return redirect('/')
+    flash('Failed to add task - be sure to fill out all values')
+    activity_form = ActivityForm(activityname=activity_form.activityname, activitytime=activity_form.activitytime,
+                                 activitydays=activity_form.activitydays, activitytype=activity_form.activitytype,
+                                 deviceid=activity_form.deviceid)
+    return render_template('add_activity.html', form=activity_form)

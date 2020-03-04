@@ -10,12 +10,12 @@ body {
 }
 
 .header a{
-color: black;
+    color: black;
 }
 
 .header a:hover{
-color: black;
-text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 .table{
@@ -86,4 +86,28 @@ input:checked + .slider:before {
 
 select, input{
 text-align: center;
+}
+
+@media (max-width: 991px){
+
+    body{
+        font-size: 1.5rem;
+    }
+
+    .container{
+        width: 100%;
+    }
+
+    h1{
+        font-size: 5rem;
+    }
+
+    h2 {
+        2rem;
+    }
+
+
+    .btn{
+        font-size: 1.5rem;
+    }
 }
