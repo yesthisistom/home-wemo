@@ -6,9 +6,10 @@
 {% for device in devices %}
     <hr>
     <div class="row">
-        <div class="col-8">
+        <div class="col-xl-4 col-lg-4 col-md-8 col-sm-8 col-xs-8 text-sm-left text-xs-left left text-xl-center text-lg-center">
             <h2>{{ device.name }}</h2>
         </div>
+        <div class="col-xl-4 col-lg-4 d-md-none d-sm-none d-xs-none d-lg-block d-xl-block"></div>
         <div class="col-4">
             {% set powered_on = device.is_powered_on() %}
 
