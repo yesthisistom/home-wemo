@@ -11,13 +11,10 @@
     <link rel="stylesheet" href="/static/css/wemo_app.css">
 {% endblock %}
 
-{% block scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-{{super()}}
-{% endblock %}
-
-
 {% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <div class="container">
     <div class="header text-center">
         <a href="{{ url_for('index.index') }}">
@@ -36,6 +33,13 @@
     <div class="wemo-body text-center">
         {% block app_content %}{% endblock %}
     </div>
+    <br><br><br><br><br>
 
  </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    {{super()}}
 {% endblock %}

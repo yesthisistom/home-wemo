@@ -48,7 +48,7 @@ class Device(Base):
         return True if self.wemo_device else False
 
     def is_powered_on(self):
-        return False
+        # return False
         self._get_device()
         if not self.wemo_device:
             print('Wemo Device Not Found')
