@@ -6,11 +6,13 @@
 {% for device in devices %}
     <hr>
     <div class="row">
-        <div class="col-xl-4 col-lg-4 col-md-8 col-sm-6 col-xs-6 text-sm-left text-md-left text-xs-left text-xl-center text-lg-center">
+        <div class="col-xl-4 col-lg-4 col-md-9 col-sm-12 col-xs-12 text-md-left text-sm-center text-xs-center text-xl-center text-lg-center">
             <h2>{{ device.name }}</h2>
         </div>
-        <!--<div class="col-xl-4 col-lg-4 d-md-none d-sm-none d-xs-none d-lg-block d-xl-block"></div>-->
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-6">
+
+        <div class="col-xl-4 col-lg-5 d-none d-lg-block"></div>
+
+        <div class="col-xl-4 col-lg-3 text-lg-center text-md-right col-md-3 col-sm-12 col-xs-12">
             {% set powered_on = device.is_powered_on() %}
 
             <label class="switch">
