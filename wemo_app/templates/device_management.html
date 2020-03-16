@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    <h2> Known Devices </h2>
+
+    {% if name_status_dict %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col-50">Device</th>
+                    <th scope="col-25">Status</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for device, status in name_status_dict.items() %}
+                    <tr>
+                        <td>{{ device }}</td>
+                        <td>{{ status }}</td>
+                        <td><button class="btn btn-primary">Edit</button></td>
+                        <td><button class="btn btn-primary remove-button" device_id="{{ device }}">Remove</button></td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <hr>
+        No known devices...
+    {% endif %}
+
+
+<h2> New Devices </h2>
+
+    {% if unknown_list %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Device Name</th>
+                    <th scope="col"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for device in unknown_list %}
+                    <tr>
+                        <td>{{ device }}</td>
+                        <td><button class="btn btn-primary">Add</button></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <hr>
+        No new devices...
+    {% endif %}
+
+
+<script>
+    $(document).ready(function() {
+        $(".remove-button").each(function(index){
+
+            $(this).click(function(){
+                var confirmation = confirm("Are you sure you want to remove {{ device }}?");
+                var name =  $(this).attr('device_id');
+
+                console.log(confirmation);
+                console.log(name);
+
+             });
+         });
+    });
+</script>
+
+{% endblock %}

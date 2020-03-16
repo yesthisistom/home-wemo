@@ -1,3 +1,4 @@
+import pywemo
 from suntime import Sun
 
 
@@ -10,6 +11,10 @@ def get_sunset_time(lat= 38.901658, lon=-77.038907):
     sun = Sun(lat, lon)
     sunset = sun.get_local_sunset_time().replace(tzinfo=None)
     return sunset
+
+
+def get_devices_on_network():
+    return pywemo.discover_devices()
 
 
 # def change_state(device_mac, state=0):
